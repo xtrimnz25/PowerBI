@@ -7,12 +7,6 @@ table 'Key Measures'
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-NZ"}
 
-	measure 'Average Yearly Income' = AVERAGE(DimCustomer[YearlyIncome])
-		formatString: \$#,0.###############;-\$#,0.###############;\$#,0.###############
-		lineageTag: 5efb8eef-6058-423b-a716-da8da9956d11
-
-		annotation PBI_FormatHint = {"currencyCulture":"en-NZ"}
-
 	measure 'Sales Quantity' = SUM(Sales[SalesQuantity])
 		formatString: #,0
 		lineageTag: c3069853-17b7-4465-9c64-042a4ce73019
