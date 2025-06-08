@@ -37,13 +37,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Key Measures"
+                      "Entity": "Sales"
                     }
                   },
-                  "Property": "Sales Ampunt"
+                  "Property": "Sales Amount"
                 }
               },
-              "queryRef": "Key Measures.Sales Ampunt"
+              "queryRef": "Sales.Sales Amount",
+              "nativeQueryRef": "Sales Amount"
             },
             {
               "field": {

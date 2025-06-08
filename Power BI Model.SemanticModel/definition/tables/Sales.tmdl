@@ -18,7 +18,7 @@ table Sales
 
 	column DateKey
 		dataType: dateTime
-		formatString: General Date
+		formatString: Short Date
 		lineageTag: bf978d38-6798-47d5-a1be-fb23ba9b252a
 		summarizeBy: none
 		sourceColumn: DateKey
@@ -198,7 +198,7 @@ table Sales
 
 	column LoadDate
 		dataType: dateTime
-		formatString: General Date
+		formatString: Short Date
 		lineageTag: e7663e10-31df-4d76-931e-e879d0d84e6f
 		summarizeBy: none
 		sourceColumn: LoadDate
