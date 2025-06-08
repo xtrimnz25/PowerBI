@@ -1,0 +1,37 @@
+model Model
+	culture: en-NZ
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-NZ
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.143.1378.0 (25.05)+4e1de9c957866bc5336e0d250838314aa54ff3a8
+
+annotation PBI_QueryOrder = ["Sales","DimCustomer","Geography","Product","ProductCategory","ProductSubcategory","Promotion","Date","Key Measures","Scale"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Sales
+ref table DateTableTemplate_056d752f-9eb7-4090-b44b-4f601e2e9791
+ref table LocalDateTable_e5b7aaf5-0da1-4914-9d75-671b1a228c80
+ref table LocalDateTable_09c279f7-6ade-4c95-92af-18c048edffac
+ref table Product
+ref table LocalDateTable_01859f5c-b5c9-46a7-89fe-7165a2948bba
+ref table LocalDateTable_f05319fd-8e7d-454b-80ea-5e59a0e69edd
+ref table LocalDateTable_d3ce4279-82f6-4613-bf83-e691994bc2d4
+ref table LocalDateTable_d86b378a-f518-44ba-a117-4e5f63fd3303
+ref table 'Key Measures'
+ref table LocalDateTable_9a80cc13-a457-4e40-b3e8-4fb95c1ff78f
+ref table ProductCategory
+ref table LocalDateTable_9d2ed7b9-48f4-426f-8ff5-6abfe877c191
+ref table LocalDateTable_4d38325f-4c6b-4329-bf20-14320aea29c1
+ref table ProductSubcategory
+ref table LocalDateTable_9390c8f4-74f4-47f3-9f9a-e751845df8e1
+ref table LocalDateTable_d159e8af-7337-4c24-89ae-2007eea0a550
+ref table Scale
+
+ref cultureInfo en-NZ
+

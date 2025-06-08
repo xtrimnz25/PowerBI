@@ -1,0 +1,234 @@
+table Sales
+	lineageTag: e896a28b-a49b-45d5-aa0b-76b7f66988dc
+
+	column OnlineSalesKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 7eb976e5-a807-46ec-a503-cd66b67887c3
+		summarizeBy: count
+		sourceColumn: OnlineSalesKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: bf978d38-6798-47d5-a1be-fb23ba9b252a
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		variation Variation
+			isDefault
+			relationship: 956bc095-9073-4550-aa2e-863cbec6e727
+			defaultHierarchy: LocalDateTable_9a80cc13-a457-4e40-b3e8-4fb95c1ff78f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreKey
+		dataType: int64
+		formatString: 0
+		lineageTag: c1ec26b2-5d80-4076-ae7d-5e9524a95d53
+		summarizeBy: count
+		sourceColumn: StoreKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: d0686d50-906b-4253-a727-7ef954fbcd52
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromotionKey
+		dataType: int64
+		formatString: 0
+		lineageTag: f7b60982-5f5d-4f36-82ed-98a71dd996ef
+		summarizeBy: count
+		sourceColumn: PromotionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrencyKey
+		dataType: int64
+		formatString: 0
+		lineageTag: cfa29752-ec6e-48e2-ac0c-64525a40742f
+		summarizeBy: count
+		sourceColumn: CurrencyKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: a35d17fd-18b8-4828-a018-9d0f288753c7
+		summarizeBy: count
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderNumber
+		dataType: string
+		lineageTag: 9a994556-3264-437b-a81a-851d070bc5ef
+		summarizeBy: none
+		sourceColumn: SalesOrderNumber
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column SalesOrderLineNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: e6423197-9018-4888-8756-adfff9dfa6f3
+		summarizeBy: sum
+		sourceColumn: SalesOrderLineNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: b7df5df8-0d52-4eff-9258-39d73ef9e81b
+		summarizeBy: sum
+		sourceColumn: SalesQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesAmount
+		dataType: decimal
+		formatString: \$#,0.###############;-\$#,0.###############;\$#,0.###############
+		lineageTag: ca7b290f-88e9-43de-a0d3-50e1050387cd
+		summarizeBy: sum
+		sourceColumn: SalesAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-NZ"}
+
+	column ReturnQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 6b8b7c6e-7575-4482-9726-5308b0f92776
+		summarizeBy: sum
+		sourceColumn: ReturnQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReturnAmount
+		dataType: decimal
+		formatString: \$#,0.###############;-\$#,0.###############;\$#,0.###############
+		lineageTag: 803b3fd0-d34c-4851-91d5-4ebe8486e7b9
+		summarizeBy: sum
+		sourceColumn: ReturnAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-NZ"}
+
+	column DiscountQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: e5a7d1a8-8631-4b0b-9835-5d2f0305a7aa
+		summarizeBy: sum
+		sourceColumn: DiscountQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiscountAmount
+		dataType: decimal
+		formatString: \$#,0.###############;-\$#,0.###############;\$#,0.###############
+		lineageTag: 1c799e27-f9e7-4f90-b26d-bfc71d931c9b
+		summarizeBy: sum
+		sourceColumn: DiscountAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-NZ"}
+
+	column TotalCost
+		dataType: decimal
+		formatString: \$#,0.###############;-\$#,0.###############;\$#,0.###############
+		lineageTag: 5ebf05ef-6134-496b-aef4-87a88e6ebdff
+		summarizeBy: sum
+		sourceColumn: TotalCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-NZ"}
+
+	column UnitCost
+		dataType: decimal
+		formatString: \$#,0.###############;-\$#,0.###############;\$#,0.###############
+		lineageTag: 8cbc0980-826e-4da1-b9bd-a85b8c835397
+		summarizeBy: sum
+		sourceColumn: UnitCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-NZ"}
+
+	column UnitPrice
+		dataType: decimal
+		formatString: \$#,0.###############;-\$#,0.###############;\$#,0.###############
+		lineageTag: 06fb357a-c816-4c8e-ae44-eea53c870ab9
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-NZ"}
+
+	column ETLLoadID
+		dataType: int64
+		formatString: 0
+		lineageTag: 6c638354-ca74-4925-915c-97e527d040a8
+		summarizeBy: count
+		sourceColumn: ETLLoadID
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e7663e10-31df-4d76-931e-e879d0d84e6f
+		summarizeBy: none
+		sourceColumn: LoadDate
+
+		variation Variation
+			isDefault
+			relationship: 4a7cc52f-a345-4df9-a1b2-6b0f5e651a29
+			defaultHierarchy: LocalDateTable_e5b7aaf5-0da1-4914-9d75-671b1a228c80.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column UpdateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 7482a72a-b850-43d4-a016-400c6cd0cdc0
+		summarizeBy: none
+		sourceColumn: UpdateDate
+
+		variation Variation
+			isDefault
+			relationship: fa5e814c-7dc9-4753-a444-09969aaf2a36
+			defaultHierarchy: LocalDateTable_09c279f7-6ade-4c95-92af-18c048edffac.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales-74903446-526b-4b6f-9e29-aa2db8ea4211 = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("DESKTOP-OQU14B5\HELAL"),
+				    ContosoRetailDW = Source{[Name="ContosoRetailDW"]}[Data],
+				    dbo_FactOnlineSales = ContosoRetailDW{[Schema="dbo",Item="FactOnlineSales"]}[Data]
+				in
+				    dbo_FactOnlineSales
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

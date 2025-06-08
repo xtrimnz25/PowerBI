@@ -1,0 +1,67 @@
+relationship 4a7cc52f-a345-4df9-a1b2-6b0f5e651a29
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Sales.LoadDate
+	toColumn: LocalDateTable_e5b7aaf5-0da1-4914-9d75-671b1a228c80.Date
+
+relationship fa5e814c-7dc9-4753-a444-09969aaf2a36
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Sales.UpdateDate
+	toColumn: LocalDateTable_09c279f7-6ade-4c95-92af-18c048edffac.Date
+
+relationship ffa579ae-551f-408d-b49e-cb091bab0180
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Product.AvailableForSaleDate
+	toColumn: LocalDateTable_01859f5c-b5c9-46a7-89fe-7165a2948bba.Date
+
+relationship ac992ba8-515c-4c7e-8418-c5b5c955fa38
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Product.StopSaleDate
+	toColumn: LocalDateTable_f05319fd-8e7d-454b-80ea-5e59a0e69edd.Date
+
+relationship 0772a139-3547-4cd7-a648-07a79f7810e9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Product.LoadDate
+	toColumn: LocalDateTable_d3ce4279-82f6-4613-bf83-e691994bc2d4.Date
+
+relationship d58ee2f8-4d61-4527-8ce9-1fc16b616691
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Product.UpdateDate
+	toColumn: LocalDateTable_d86b378a-f518-44ba-a117-4e5f63fd3303.Date
+
+relationship ab559483-5809-4772-a5e3-d40187f130d6
+	fromColumn: Sales.ProductKey
+	toColumn: Product.ProductKey
+
+relationship 956bc095-9073-4550-aa2e-863cbec6e727
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Sales.DateKey
+	toColumn: LocalDateTable_9a80cc13-a457-4e40-b3e8-4fb95c1ff78f.Date
+
+relationship e3d7dbd5-4f4c-43cc-b4a6-00f68fb55b44
+	joinOnDateBehavior: datePartOnly
+	fromColumn: ProductCategory.LoadDate
+	toColumn: LocalDateTable_9d2ed7b9-48f4-426f-8ff5-6abfe877c191.Date
+
+relationship bc31b8f6-9951-4865-9e0a-6622bb10780e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: ProductCategory.UpdateDate
+	toColumn: LocalDateTable_4d38325f-4c6b-4329-bf20-14320aea29c1.Date
+
+relationship 4b1d29de-b183-4612-8e87-7a5277e8f8ee
+	joinOnDateBehavior: datePartOnly
+	fromColumn: ProductSubcategory.LoadDate
+	toColumn: LocalDateTable_9390c8f4-74f4-47f3-9f9a-e751845df8e1.Date
+
+relationship ef6bef38-2f2e-4336-8fe9-c13d4092454a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: ProductSubcategory.UpdateDate
+	toColumn: LocalDateTable_d159e8af-7337-4c24-89ae-2007eea0a550.Date
+
+relationship 6b514160-8cc0-424b-825a-f68df7dd24af
+	fromColumn: ProductSubcategory.ProductCategoryKey
+	toColumn: ProductCategory.ProductCategoryKey
+
+relationship 37b1d875-d103-4861-95de-3ae9eaaf619a
+	fromColumn: Product.ProductSubcategoryKey
+	toColumn: ProductSubcategory.ProductSubcategoryKey
+
