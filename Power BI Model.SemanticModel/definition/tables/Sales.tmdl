@@ -1,6 +1,12 @@
 table Sales
 	lineageTag: e896a28b-a49b-45d5-aa0b-76b7f66988dc
 
+	measure 'Sales Amount' = SUM(Sales[SalesAmount])
+		formatString: \$#,0.###############;-\$#,0.###############;\$#,0.###############
+		lineageTag: f73ad3c6-3fb5-462c-a9ba-87f80394a5cc
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-NZ"}
+
 	column OnlineSalesKey
 		dataType: int64
 		formatString: 0

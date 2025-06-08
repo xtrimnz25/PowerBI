@@ -1,18 +1,6 @@
 table 'Key Measures'
 	lineageTag: 29d3ed8a-9899-4986-a22b-b076a650b0b6
 
-	measure 'Sales Ampunt' = SUM(Sales[SalesAmount])
-		formatString: \$#,0.###############;-\$#,0.###############;\$#,0.###############
-		lineageTag: f50f6601-d429-4529-889d-90c676c07b98
-
-		annotation PBI_FormatHint = {"currencyCulture":"en-NZ"}
-
-	measure 'Average Yearly Income' = AVERAGE(DimCustomer[YearlyIncome])
-		formatString: \$#,0.###############;-\$#,0.###############;\$#,0.###############
-		lineageTag: 5efb8eef-6058-423b-a716-da8da9956d11
-
-		annotation PBI_FormatHint = {"currencyCulture":"en-NZ"}
-
 	measure 'Sales Quantity' = SUM(Sales[SalesQuantity])
 		formatString: #,0
 		lineageTag: c3069853-17b7-4465-9c64-042a4ce73019
@@ -60,7 +48,7 @@ table 'Key Measures'
 	measure 'Sales by Scale' = ```
 			
 			    DIVIDE(
-			        [Sales Ampunt],
+			        [Sales Amount],
 			        SELECTEDVALUE( Scale[Scale], 1 )
 			)
 			    
