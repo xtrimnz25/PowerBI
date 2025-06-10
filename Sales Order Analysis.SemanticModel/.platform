@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Sales Order Analysis"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c02f734e-de60-a714-4dae-f172f51dbf72"
+  }
+}

@@ -1,0 +1,106 @@
+table Reseller
+	lineageTag: 40773b11-b828-4c24-949f-0238a198ecbe
+
+	column ResellerKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 30cf4069-a141-4b94-86b9-d251a53142ee
+		summarizeBy: none
+		sourceColumn: ResellerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Business Type'
+		dataType: string
+		lineageTag: 40f2b739-3c42-4738-9eae-2199e16e4a96
+		summarizeBy: none
+		sourceColumn: Business Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Reseller
+		dataType: string
+		lineageTag: 556c2dff-1419-4cbf-bd9d-6c3ed0450567
+		summarizeBy: none
+		sourceColumn: Reseller
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 7c0e7d09-3347-4c5e-9ac2-57c6682aed09
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column State-Province
+		dataType: string
+		lineageTag: 650d5acb-7148-48b0-bbd0-1a94e6890046
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: State-Province
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country-Region
+		dataType: string
+		lineageTag: cdbb7583-92f7-49fd-bd9b-a4200e61c7f2
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country-Region
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy Resellers
+		lineageTag: 707f8f86-7f38-467d-ace7-96fa554e604c
+
+		level 'Business Type'
+			lineageTag: 8cf4725d-ea56-42c4-b58c-39e09d5349cd
+			column: 'Business Type'
+
+		level Reseller
+			lineageTag: 2875fe66-9c36-4bda-9afd-86e83b48b37b
+			column: Reseller
+
+	hierarchy Geography
+		lineageTag: 71ca76a2-86cb-4408-9cf0-6c14ef619f3d
+
+		level Country-Region
+			lineageTag: 6fab4530-0098-4087-96d2-90ed748c7d68
+			column: Country-Region
+
+		level State-Province
+			lineageTag: 71aa2f31-abcd-4b4a-8a24-70892f573690
+			column: State-Province
+
+		level City
+			lineageTag: 787fa370-5d69-431c-a610-e899b593bb25
+			column: City
+
+		level Reseller
+			lineageTag: 6ca003a7-f7ad-4875-ad16-0778add4ccac
+			column: Reseller
+
+	partition Reseller-b7623732-dbcc-4934-b7f9-e9cb1f8be3b7 = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("LAPTOP-KK3GNPS5\SQLEXPRESS"),
+				    AdventureWorksDW2020 = Source{[Name="AdventureWorksDW2020"]}[Data],
+				    dbo_DimReseller = AdventureWorksDW2020{[Schema="dbo",Item="DimReseller"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(dbo_DimReseller,{"ResellerKey", "BusinessType", "ResellerName", "DimGeography"}),
+				    #"Expanded DimGeography" = Table.ExpandRecordColumn(#"Removed Other Columns", "DimGeography", {"City", "StateProvinceName", "EnglishCountryRegionName"}, {"City", "StateProvinceName", "EnglishCountryRegionName"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Expanded DimGeography","Ware House","Warehouse",Replacer.ReplaceText,{"BusinessType"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Replaced Value",{{"BusinessType", "Business Type"}, {"ResellerName", "Reseller"}, {"StateProvinceName", "State-Province"}, {"EnglishCountryRegionName", "Country-Region"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

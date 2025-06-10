@@ -1,0 +1,72 @@
+table Region
+	lineageTag: c0d03ace-9694-4843-a4c9-5d70822bf991
+
+	column SalesTerritoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 892648a4-a89c-49e1-8c51-2007ba45e8b0
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 4e79ace7-3058-43c1-a174-396fcfb45286
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 0235a7da-3dff-4730-9113-053ba930fc39
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group
+		dataType: string
+		lineageTag: c8eff53b-2dad-4ecb-b14e-7aa19a68685c
+		summarizeBy: none
+		sourceColumn: Group
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy Regions
+		lineageTag: ccf2777f-a19d-4a8d-9eb3-829d03e39004
+
+		level Group
+			lineageTag: 721a8fb3-71f5-4b8c-aa03-753de411bf87
+			column: Group
+
+		level Country
+			lineageTag: 5f222e74-09e7-42d5-8170-5c5ed8d0d337
+			column: Country
+
+		level Region
+			lineageTag: 8d95d4f3-d92d-4362-af83-30334ba9cc2e
+			column: Region
+
+	partition Region-ea480047-3edb-4c56-aac2-c1a7a3ce9872 = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("LAPTOP-KK3GNPS5\SQLEXPRESS"),
+				    AdventureWorksDW2020 = Source{[Name="AdventureWorksDW2020"]}[Data],
+				    dbo_DimSalesTerritory = AdventureWorksDW2020{[Schema="dbo",Item="DimSalesTerritory"]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(dbo_DimSalesTerritory, each ([SalesTerritoryAlternateKey] <> 0)),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows",{"SalesTerritoryKey", "SalesTerritoryRegion", "SalesTerritoryCountry", "SalesTerritoryGroup"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns",{{"SalesTerritoryRegion", "Region"}, {"SalesTerritoryCountry", "Country"}, {"SalesTerritoryGroup", "Group"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

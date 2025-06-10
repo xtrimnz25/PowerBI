@@ -1,0 +1,73 @@
+/// Salesperson related to region(s)
+table 'Salesperson (Performance)'
+	lineageTag: 931c4770-6946-4701-bb3d-355fd81dea12
+
+	column EmployeeKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e2ad43fd-2244-4b2c-9d2c-1d707e1e12fe
+		summarizeBy: none
+		sourceColumn: EmployeeKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmployeeID
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c091bfbb-f611-44c0-bcdb-3406aeb7410f
+		summarizeBy: none
+		sourceColumn: EmployeeID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Salesperson
+		dataType: string
+		lineageTag: 4fdcbca6-2ebf-485b-b6f7-6c0dcf95c51a
+		summarizeBy: none
+		sourceColumn: Salesperson
+
+		annotation SummarizationSetBy = Automatic
+
+	column Title
+		dataType: string
+		lineageTag: 809e9d36-95dd-4a7e-ad2c-9c8e09bf6d91
+		summarizeBy: none
+		sourceColumn: Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column UPN
+		dataType: string
+		isHidden
+		lineageTag: 0824fe75-f38a-45f9-be46-50ed5f179498
+		summarizeBy: none
+		sourceColumn: UPN
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Salesperson (Performance)-18f47ddc-4193-4b4c-9de0-b76e2fedc933' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("LAPTOP-KK3GNPS5\SQLEXPRESS"),
+				    AdventureWorksDW2020 = Source{[Name="AdventureWorksDW2020"]}[Data],
+				    dbo_DimEmployee = AdventureWorksDW2020{[Schema="dbo",Item="DimEmployee"]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(dbo_DimEmployee, each ([SalesPersonFlag] = true)),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows",{"EmployeeKey", "EmployeeNationalIDAlternateKey", "FirstName", "LastName", "Title", "EmailAddress"}),
+				    #"Merged Columns" = Table.CombineColumns(#"Removed Other Columns",{"FirstName", "LastName"},Combiner.CombineTextByDelimiter(" ", QuoteStyle.None),"Salesperson"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Merged Columns",{{"EmployeeNationalIDAlternateKey", "EmployeeID"}, {"EmailAddress", "UPN"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

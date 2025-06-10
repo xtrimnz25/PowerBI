@@ -1,0 +1,112 @@
+table Product
+	lineageTag: f8bd1dd2-3bfd-4e6b-a03d-47b7db3a05f1
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8fd80413-6e27-45cc-844a-c622fcb1c0e1
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: 36bc2717-8fb0-4d43-85e3-8943fbb15eb4
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Standard Cost'
+		dataType: decimal
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 4395c1b5-3c4a-4264-8067-614799304c5d
+		summarizeBy: none
+		sourceColumn: Standard Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Color
+		dataType: string
+		lineageTag: c4e22519-4563-4f1f-a2c0-d732b89122c7
+		summarizeBy: none
+		sourceColumn: Color
+
+		annotation SummarizationSetBy = Automatic
+
+	column Subcategory
+		dataType: string
+		lineageTag: 1910ecf6-9fa4-46c9-9ca2-d84fa4ac44f3
+		summarizeBy: none
+		sourceColumn: Subcategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 18543d23-3ba5-45dd-9cca-f3178bdc9554
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Background Color Format'
+		dataType: string
+		displayFolder: Formatting
+		lineageTag: 7797e2b8-c3f6-4001-acef-1a8b82feb890
+		summarizeBy: none
+		sourceColumn: Background Color Format
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Font Color Format'
+		dataType: string
+		displayFolder: Formatting
+		lineageTag: 92fb70df-18fe-44e0-86bd-a490fe7c0dfd
+		summarizeBy: none
+		sourceColumn: Font Color Format
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy Products
+		lineageTag: 5ac5ce75-874b-49ee-86a3-c71f4a3e4e62
+
+		level Category
+			lineageTag: cb350006-1260-4209-8b5b-2f10b0af1bbe
+			column: Category
+
+		level Subcategory
+			lineageTag: eb8e2fd4-cb8d-4210-9064-16ac767dfffe
+			column: Subcategory
+
+		level Product
+			lineageTag: e97bd4f1-706c-4315-ae99-03eb24235cd8
+			column: Product
+
+	partition Product-7f4fb714-6c29-4a7a-864a-0ca1e12b5bd2 = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("LAPTOP-KK3GNPS5\SQLEXPRESS"),
+				    AdventureWorksDW2020 = Source{[Name="AdventureWorksDW2020"]}[Data],
+				    dbo_DimProduct = AdventureWorksDW2020{[Schema="dbo",Item="DimProduct"]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(dbo_DimProduct, each ([FinishedGoodsFlag] = true)),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows",{"ProductKey", "EnglishProductName", "StandardCost", "Color", "DimProductSubcategory"}),
+				    #"Expanded DimProductSubcategory" = Table.ExpandRecordColumn(#"Removed Other Columns", "DimProductSubcategory", {"EnglishProductSubcategoryName", "DimProductCategory"}, {"EnglishProductSubcategoryName", "DimProductCategory"}),
+				    #"Expanded DimProductCategory" = Table.ExpandRecordColumn(#"Expanded DimProductSubcategory", "DimProductCategory", {"EnglishProductCategoryName"}, {"EnglishProductCategoryName"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Expanded DimProductCategory",{{"EnglishProductName", "Product"}, {"StandardCost", "Standard Cost"}, {"EnglishProductSubcategoryName", "Subcategory"}, {"EnglishProductCategoryName", "Category"}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Renamed Columns", {"Color"}, ColorFormats, {"Color"}, "ColorFormats", JoinKind.LeftOuter),
+				    #"Expanded ColorFormats" = Table.ExpandTableColumn(#"Merged Queries", "ColorFormats", {"Background Color Format", "Font Color Format"}, {"Background Color Format", "Font Color Format"})
+				in
+				    #"Expanded ColorFormats"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,65 @@
+table DimProductCategory
+	lineageTag: e4ba8226-397a-4706-9eee-fadd48ab9156
+
+	column ProductCategoryKey
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 47a8c399-deb6-4222-9ca8-d62ce700302b
+		summarizeBy: none
+		sourceColumn: ProductCategoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCategoryAlternateKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 366ece6d-8c19-4b9f-a38c-be2db57fd80f
+		summarizeBy: none
+		sourceColumn: ProductCategoryAlternateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column EnglishProductCategoryName
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(50)
+		lineageTag: 92e734af-7dc3-4d31-91d2-ae288a5efb93
+		summarizeBy: none
+		sourceColumn: EnglishProductCategoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	column SpanishProductCategoryName
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(50)
+		lineageTag: bd8e56f0-eb2d-445b-92cc-b2f14d26ca70
+		summarizeBy: none
+		sourceColumn: SpanishProductCategoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	column FrenchProductCategoryName
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(50)
+		lineageTag: f931540b-7409-43b4-bf29-fad7a27dad01
+		summarizeBy: none
+		sourceColumn: FrenchProductCategoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimProductCategory-dfa2001f-69cc-4bc3-8ebb-370240c828e3 = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("LAPTOP-KK3GNPS5\SQLEXPRESS", "AdventureWorksDW2020"),
+				    dbo_DimProductCategory = Source{[Schema="dbo",Item="DimProductCategory"]}[Data]
+				in
+				    dbo_DimProductCategory
+
+	annotation PBI_ResultType = Table
+

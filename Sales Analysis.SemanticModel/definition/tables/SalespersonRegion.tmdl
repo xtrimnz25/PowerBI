@@ -1,0 +1,42 @@
+table SalespersonRegion
+	lineageTag: 81f5ec10-f2fb-4c23-ac55-8718ca509aa5
+
+	column EmployeeKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a8b475c0-2de6-4e21-a781-c4958782d29a
+		summarizeBy: none
+		sourceColumn: EmployeeKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 865db7fc-fa6f-42fe-9b59-e2e2b7094431
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SalespersonRegion-3ed93b27-7463-4ee7-b115-2a2e816cd1af = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("LAPTOP-KK3GNPS5\SQLEXPRESS"),
+				    AdventureWorksDW2020 = Source{[Name="AdventureWorksDW2020"]}[Data],
+				    dbo_DimEmployeeSalesTerritory = AdventureWorksDW2020{[Schema="dbo",Item="DimEmployeeSalesTerritory"]}[Data],
+				    #"Removed Columns" = Table.RemoveColumns(dbo_DimEmployeeSalesTerritory,{"DimEmployee", "DimSalesTerritory"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

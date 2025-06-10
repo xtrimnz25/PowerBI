@@ -1,0 +1,295 @@
+/// Based on standard cost
+table Sales
+	lineageTag: f22361c5-14bc-4805-a64f-331f66537fec
+
+	measure Profit =
+			
+			SUM('Sales'[Sales]) - SUM('Sales'[Cost])
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: a10e2d6d-99f7-49a4-8867-8b619f71fdeb
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "MathematicalSubtraction"
+				}
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Profit Margin' =
+			
+			DIVIDE([Profit], SUM('Sales'[Sales]))
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: 3a44ae5c-2b11-4051-9f29-7a0d3699d2ac
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "MathematicalDivision"
+				}
+
+	measure 'Avg Price' = AVERAGE(Sales[Unit Price])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Pricing
+		lineageTag: a57a4090-dc8f-45a4-85cd-d06c4720e34a
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Median Price' =
+			
+			MEDIAN(Sales[Unit Price])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Pricing
+		lineageTag: 9ff7f150-b90f-417d-b059-2fcba221e0c9
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Min Price' =
+			
+			MIN(Sales[Unit Price])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Pricing
+		lineageTag: 167e5e09-e123-44b6-a259-75e6b537ec15
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Max Price' =
+			
+			MAX(Sales[Unit Price])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Pricing
+		lineageTag: 1e22564d-20df-44bf-8dc9-666fe7c8e775
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure Orders =
+			
+			DISTINCTCOUNT(Sales[SalesOrderNumber])
+		formatString: #,0
+		displayFolder: Counts
+		lineageTag: cb99e1ad-33e5-400f-bd54-937772aa3a85
+
+	measure 'Order Lines' =
+			
+			COUNTROWS(Sales)
+		formatString: #,0
+		displayFolder: Counts
+		lineageTag: 70889656-9daa-4835-b9e6-601b42bb765f
+
+	measure 'Sales % All Region' =
+			
+			DIVIDE(
+				SUM(Sales[Sales]),
+				CALCULATE(
+					SUM(Sales[Sales]),
+					REMOVEFILTERS(Region)
+				)
+			)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Ratios
+		lineageTag: df03361f-11b5-4dff-8a2e-4c53a606cce1
+
+	measure 'Sales % Country' =
+			
+			IF(
+				ISINSCOPE(Region[Region]),
+				DIVIDE(
+					SUM(Sales[Sales]),
+					CALCULATE(
+						SUM(Sales[Sales]),
+						REMOVEFILTERS(Region[Region])
+					)
+				)
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Ratios
+		lineageTag: 5b0f6a56-bb53-4651-b38b-2d9754afe942
+
+	measure 'Sales % Group' =
+			
+			IF(
+				ISINSCOPE(Region[Region])
+					|| ISINSCOPE(Region[Country]),
+				DIVIDE(
+					SUM(Sales[Sales]),
+					CALCULATE(
+						SUM(Sales[Sales]),
+						REMOVEFILTERS(
+							Region[Region],
+							Region[Country]
+						)
+					)
+				)
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Ratios
+		lineageTag: 5df4be60-2e93-4417-b6d9-986ba5f03ed2
+
+	measure 'Sales YTD' =
+			
+			TOTALYTD(SUM(Sales[Sales]), 'Date'[Date], "6-30")
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Time Intelligence
+		lineageTag: fecc260c-643b-4a9c-a121-44bd1152511f
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Sales YoY Growth' =
+			
+			VAR SalesPriorYear =
+				CALCULATE(
+					SUM(Sales[Sales]),
+					PARALLELPERIOD(
+						'Date'[Date],
+						-12,
+						MONTH
+					)
+				)
+			RETURN
+				DIVIDE(
+					(SUM(Sales[Sales]) - SalesPriorYear),
+					SalesPriorYear
+				)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Time Intelligence
+		lineageTag: 652000d6-adeb-4a84-8d82-f403aaa34b2f
+
+	column SalesOrderNumber
+		dataType: string
+		isHidden
+		lineageTag: 9a80d862-1752-4d2a-94bb-2f5d132b239a
+		summarizeBy: none
+		sourceColumn: SalesOrderNumber
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDate
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: dd9c7801-7804-4d99-936b-89badad0f5b8
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c0ce2673-0551-45b0-88e6-c242588d9b4c
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResellerKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b123cbd1-3997-4c4b-8fb8-24073799420a
+		summarizeBy: none
+		sourceColumn: ResellerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmployeeKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 115f7512-801c-4f8e-8689-369cab3daf1b
+		summarizeBy: none
+		sourceColumn: EmployeeKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f82351b9-42f4-4b69-a706-83d6cfbb56fa
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: #,0
+		lineageTag: e2378ced-f188-4b3f-bfec-dfc2aaa9ccef
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Unit Price'
+		dataType: decimal
+		isHidden
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: ae45cde5-204e-4b91-a287-782f65f749ff
+		summarizeBy: average
+		sourceColumn: Unit Price
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Sales
+		dataType: decimal
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 6b62480b-d4e1-4d0e-9444-8fb8a19e468b
+		summarizeBy: sum
+		sourceColumn: Sales
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// Based on standard cost
+	column Cost
+		dataType: decimal
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: f50a32ef-b505-4fb7-87fa-d4a0bf7bc1cf
+		summarizeBy: sum
+		sourceColumn: Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	partition Sales-4beb1b51-e2b2-49f3-973d-840dcd8c3202 = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("LAPTOP-KK3GNPS5\SQLEXPRESS"),
+				    AdventureWorksDW2020 = Source{[Name="AdventureWorksDW2020"]}[Data],
+				    dbo_FactResellerSales = AdventureWorksDW2020{[Schema="dbo",Item="FactResellerSales"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(dbo_FactResellerSales,{"SalesOrderNumber", "OrderDate", "ProductKey", "ResellerKey", "EmployeeKey", "SalesTerritoryKey", "OrderQuantity", "UnitPrice", "TotalProductCost", "SalesAmount", "DimProduct"}),
+				    #"Expanded DimProduct" = Table.ExpandRecordColumn(#"Removed Other Columns", "DimProduct", {"StandardCost"}, {"StandardCost"}),
+				    #"Added Custom" = Table.AddColumn(#"Expanded DimProduct", "Cost", each if [TotalProductCost] = null then [OrderQuantity] * [StandardCost] else [TotalProductCost]),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Added Custom",{"SalesOrderNumber", "OrderDate", "ProductKey", "ResellerKey", "EmployeeKey", "SalesTerritoryKey", "OrderQuantity", "UnitPrice", "SalesAmount", "Cost"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns1",{{"OrderQuantity", "Quantity"}, {"UnitPrice", "Unit Price"}, {"SalesAmount", "Sales"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Quantity", Int64.Type}, {"Unit Price", Currency.Type}, {"Sales", Currency.Type}, {"Cost", Currency.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

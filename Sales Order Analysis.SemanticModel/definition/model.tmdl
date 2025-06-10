@@ -1,0 +1,23 @@
+model Model
+	culture: en-NZ
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-NZ
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["DimDate","DimCustomer","DimProduct","DimProductCategory","DimProductSubcategory","FactInternetSales"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.115.1006.0 (23.03)
+
+ref table DimDate
+ref table DimCustomer
+ref table DimProduct
+ref table DimProductCategory
+ref table DimProductSubcategory
+ref table FactInternetSales
+
+ref cultureInfo en-NZ
+
