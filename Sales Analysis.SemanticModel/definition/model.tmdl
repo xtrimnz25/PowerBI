@@ -7,11 +7,13 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation PBIDesktopVersion = 2.115.1006.0 (23.03)
+annotation PBIDesktopVersion = 2.145.7692.4 (Main)+9e218fec77c33043950f105df46e999400bc0cc4
 
 annotation PBI_QueryOrder = ["Salesperson (Performance)","SalespersonRegion","Product","Reseller","Region","Sales","Targets","ColorFormats"]
 
 annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["WebModelingEdit","DaxQueryView_Desktop"]
 
 ref table 'Salesperson (Performance)'
 ref table SalespersonRegion

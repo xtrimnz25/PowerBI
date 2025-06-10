@@ -154,6 +154,16 @@ table Sales
 		displayFolder: Time Intelligence
 		lineageTag: 652000d6-adeb-4a84-8d82-f403aaa34b2f
 
+	measure 'Total Sales' = ```
+			SUM(Sales[Sales])
+			
+			
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 0299cc3e-1644-44a0-8a66-c5cfcf5281b8
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
 	column SalesOrderNumber
 		dataType: string
 		isHidden
